@@ -1,31 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>FoodPing System</title>
-    <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FoodPing</title>
+  <meta name="theme-color" content="rgb(255, 182, 193)" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="apple-mobile-web-app-title" content="FoodPing" />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/"
+      }
+    }
+  </script>
+  <script type="module">
+    import '@material/web/all.js';
+    import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
 </head>
-<body>
+<body class="pallete">
 
-<div class="container">
-    <h2>FoodPing</h2>
-
+<main class="page active" id="home">
+  <h1>FoodPing</h1>
+  <div class="big-thing">
+    <span class="material-symbols-outlined hmpglogo">
+      fork_spoon
+    </span>
+  </div>
+  <div class="card">
     <label>Nama Makanan</label>
     <input type="text" id="foodName">
-
     <label>Tarikh Luput (DD/MM/YY)</label>
     <input type="text" id="expiryDate" placeholder="05/03/26">
+    <button class="md-btn" onclick="addFood()">Tambah</button>
+  </div>
+</main>
 
-    <button onclick="addFood()">Tambah</button>
-
+<main class="page" id="logs">
+  <h1>Food List</h1>
+  <div class="card">
     <table id="foodTable">
-        <tr>
-            <th>Nama</th>
-            <th>Tarikh</th>
-            <th>Status</th>
-        </tr>
+      <tr>
+        <th>Nama</th>
+        <th>Tarikh</th>
+        <th>Status</th>
+      </tr>
     </table>
-</div>
+  </div>
+  <ul id="foodList" class="md-list"></ul>
+</main>
+
+<main class="page" id="about">
+  <h1>About</h1>
+  <div class="info">
+    <img src="icon.png" alt="Icon" />
+    <div class="info-text">
+      <div>FoodPing</div>
+      <div class="creator">by Izatifoodie</div>
+    </div>
+  </div>
+  <div class="another-info">
+  </div>
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" data-page="home">
+    <span class="material-symbols-outlined">home</span>
+    <span class="nav-label">Home</span>
+  </button>
+  <button class="nav-item" data-page="logs">
+    <span class="material-symbols-outlined">list</span>
+    <span class="nav-label">Food List</span>
+  </button>
+  <button class="nav-item" data-page="about">
+    <span class="material-symbols-outlined">info</span>
+    <span class="nav-label">About</span>
+  </button>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelector(`#${btn.dataset.page}`).classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  });
+
+  document.querySelectorAll('.md-btn').forEach(btn => {
+    btn.addEventListener('click', e => { 
+      e.stopPropagation(); 
+      if(navigator.vibrate) navigator.vibrate(64); 
+    });
+  });
+</script>
 
 <script src="index.js"></script>
 </body>
