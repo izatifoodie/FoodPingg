@@ -22,8 +22,8 @@ function showNotification(foodName, days, date) {
   localStorage.setItem(key, 'true');
 
   const msg = days === 0
-    ? `${foodName} expired hari ini!`
-    : `${foodName} hampir expired (${days} hari lagi)`;
+    ? `${foodName} expired today!`
+    : `${foodName} is about to expire (${days} days left)`;
 
   navigator.serviceWorker.getRegistration().then(reg => {
     if (!reg) return;
