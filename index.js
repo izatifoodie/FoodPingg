@@ -308,12 +308,12 @@ function addFood() {
   const date = document.getElementById('expiryDate').value.trim();
 
   if (!name || !date) {
-    showAlert('Sila masukkan nama dan tarikh luput!');
+    showAlert('Please enter the name and expiry date!');
     return;
   }
 
   if (date.split('/').length !== 3) {
-    showAlert('Format tarikh mesti DD/MM/YY');
+    showAlert('Date format must be DD/MM/YY');
     return;
   }
 
