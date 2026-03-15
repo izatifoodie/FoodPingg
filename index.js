@@ -339,13 +339,13 @@ function renderTable() {
 
   foods.forEach((food, index) => {
     const diffDays = Math.ceil((parseDate(food.date) - now) / (1000 * 60 * 60 * 24));
-    const row = table.insertRow();
 
-    row.insertCell(0).textContent = food.name;
-    row.insertCell(1).textContent = food.date;
+    const dataRow = table.insertRow();
+    dataRow.className = 'data-row';
+    dataRow.insertCell(0).textContent = food.name;
+    dataRow.insertCell(1).textContent = food.date;
 
-    const statusCell = row.insertCell(2);
-
+    const statusCell = dataRow.insertCell(2);
     if (diffDays > 3) {
       statusCell.textContent = `🟢 ${diffDays} days remaining`;
       statusCell.style.color = 'green';
@@ -360,15 +360,22 @@ function renderTable() {
       statusCell.style.color = 'red';
     }
 
+    const btnRow = table.insertRow();
+    btnRow.className = 'btn-row';
+    const btnCell = btnRow.insertCell(0);
+    btnCell.colSpan = 3;
+
     const delBtn = document.createElement('button');
     delBtn.textContent = 'Delete';
     Object.assign(delBtn.style, {
+      width: '100%',
       backgroundColor: 'var(--md-sys-color-primary)',
       color: 'var(--md-sys-color-on-primary)',
       border: 'none',
       borderRadius: '16px',
-      padding: '5px 10px',
-      cursor: 'pointer'
+      padding: '8px',
+      cursor: 'pointer',
+      marginBottom: '4px'
     });
 
     delBtn.onclick = () => {
@@ -380,7 +387,7 @@ function renderTable() {
       renderTable();
     };
 
-    row.insertCell(3).appendChild(delBtn);
+    btnCell.appendChild(delBtn);
   });
 }
 
