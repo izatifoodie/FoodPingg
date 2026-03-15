@@ -347,13 +347,13 @@ function renderTable() {
     const statusCell = row.insertCell(2);
 
     if (diffDays > 3) {
-      statusCell.textContent = `🟢 Lagi ${diffDays} hari`;
+      statusCell.textContent = `🟢 ${diffDays} days remaining`;
       statusCell.style.color = 'green';
     } else if (diffDays > 0) {
-      statusCell.textContent = `🟡 Lagi ${diffDays} hari`;
+      statusCell.textContent = `🟡 ${diffDays} days remaining`;
       statusCell.style.color = 'orange';
     } else if (diffDays === 0) {
-      statusCell.textContent = '🔴 Expired Hari Ini';
+      statusCell.textContent = '🔴 Expired Today';
       statusCell.style.color = 'red';
     } else {
       statusCell.textContent = '🔴 Expired';
