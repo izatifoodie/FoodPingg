@@ -1,4 +1,4 @@
-const CHECK_INTERVAL = 15 * 1000;
+const CHECK_INTERVAL = 5 * 1000; // lagi kerap (5 saat)
 
 if ('Notification' in window && Notification.permission === 'default') {
   Notification.requestPermission();
@@ -52,6 +52,7 @@ function parseNotifTime(saved) {
   return { h, m };
 }
 
+// 🔥 FIX KAT SINI
 function isWithinNotifWindow() {
   if (localStorage.getItem('notifEnabled') === 'false') return false;
 
@@ -59,7 +60,11 @@ function isWithinNotifWindow() {
   const { h, m } = parseNotifTime(saved);
   const now      = new Date();
 
-  return now.getHours() === h && now.getMinutes() === m;
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const setMin = h * 60 + m;
+
+  // bagi window 2 minit (tak miss walaupun delay)
+  return nowMin >= setMin && nowMin < setMin + 2;
 }
 
 function checkFoodExpiry() {
