@@ -162,6 +162,18 @@
   <script src="notifs.js"></script>
   <script src="led.js"></script>
   <script>
+function saveLEDUrl() {
+  const val = document.getElementById('ledUrlInput').value.trim();
+  localStorage.setItem('led_script_url', val);
+  showAlert('LED URL saved!');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('led_script_url');
+  if (saved) document.getElementById('ledUrlInput').value = saved;
+});
+</script>
+  <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(registrations => {
         registrations.forEach(reg => reg.unregister());
