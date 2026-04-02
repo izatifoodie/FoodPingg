@@ -131,6 +131,8 @@
         <div class="info-text">
           <div>FoodPing</div>
           <div class="creator">by Izatifoodie</div>
+          <textarea id="ledUrlInput" placeholder="Paste app script url here"></textarea>
+          <button onclick="saveLEDUrl()">Save</button>
         </div>
       </div>
     </main>
@@ -158,6 +160,7 @@
 
   <script src="index.js"></script>
   <script src="notifs.js"></script>
+  <script src="led.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(registrations => {
