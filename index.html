@@ -1,187 +1,584 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FoodPing</title>
-  <meta name="theme-color" content="rgb(255, 182, 193)">
-  <meta name="apple-mobile-web-app-title" content="FoodPing">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <link rel="icon" type="image/png" href="icon.png">
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="manifest" href="site.webmanifest">
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-  <link rel="stylesheet" href="index.css">
-
-  <script type="importmap">
-  {
-    "imports": {
-      "@material/web/": "https://esm.run/@material/web/"
-    }
-  }
-  </script>
-
-  <script type="module">
-    import '@material/web/all.js';
-    import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
-    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-  </script>
-</head>
-
-<body class="pallete">
-
-  <div class="pages-container">
-
-    <main class="page active" id="home">
-      <h1>FoodPing</h1>
-      <div class="big-thing">
-        <span class="material-symbols-outlined hmpglogo">fork_spoon</span>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <title>FoodPing</title>
+      <meta name="theme-color" content="#FFB6C1">
+      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFB6C1">
+      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-status-bar-style" content="default">
+      <meta name="msapplication-navbutton-color" content="#FFB6C1">
+      <meta name="msapplication-TileColor" content="#FFB6C1">
+      <meta name="mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-title" content="FoodPing">
+      <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+      <meta http-equiv="Pragma" content="no-cache">
+      <meta http-equiv="Expires" content="0">
+      <link rel="icon" type="image/png" href="icon.png">
+      <link rel="apple-touch-icon" href="icon.png">
+      <link rel="manifest" href="site.webmanifest">
+      <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+      <link rel="stylesheet" href="ui.css">
+      <script type="importmap">
+         {
+           "imports": {
+             "@material/web/": "https://esm.run/@material/web/"
+           }
+         }
+      </script>
+      <script type="module">
+         import '@material/web/all.js';
+         import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+         document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+      </script>
+   </head>
+   <body class="pallete">
+      <div class="home-bg">
+         <span class="material-symbols-outlined" style="top:2%;  left:8%;  --r:-15deg; animation-delay:0s">nutrition</span>
+         <span class="material-symbols-outlined" style="top:5%;  left:72%; --r:20deg;  animation-delay:0.5s">grocery</span>
+         <span class="material-symbols-outlined" style="top:8%;  left:40%; --r:-8deg;  animation-delay:1.3s">cake</span>
+         <span class="material-symbols-outlined" style="top:13%; left:88%; --r:-10deg; animation-delay:1s">breakfast_dining</span>
+         <span class="material-symbols-outlined" style="top:18%; left:3%;  --r:25deg;  animation-delay:1.5s">cookie</span>
+         <span class="material-symbols-outlined" style="top:22%; left:55%; --r:15deg;  animation-delay:0.7s">egg</span>
+         <span class="material-symbols-outlined" style="top:28%; left:80%; --r:-20deg; animation-delay:0.8s">icecream</span>
+         <span class="material-symbols-outlined" style="top:33%; left:20%; --r:10deg;  animation-delay:2s">local_pizza</span>
+         <span class="material-symbols-outlined" style="top:40%; left:68%; --r:-12deg; animation-delay:1.6s">bakery_dining</span>
+         <span class="material-symbols-outlined" style="top:46%; left:12%; --r:10deg;  animation-delay:2s">lunch_dining</span>
+         <span class="material-symbols-outlined" style="top:52%; left:88%; --r:22deg;  animation-delay:0.4s">ramen_dining</span>
+         <span class="material-symbols-outlined" style="top:58%; left:35%; --r:-15deg; animation-delay:1.9s">set_meal</span>
+         <span class="material-symbols-outlined" style="top:63%; left:65%; --r:-25deg; animation-delay:0.3s">nutrition</span>
+         <span class="material-symbols-outlined" style="top:68%; left:5%;  --r:18deg;  animation-delay:1.1s">grocery</span>
+         <span class="material-symbols-outlined" style="top:73%; left:78%; --r:-8deg;  animation-delay:1.8s">egg</span>
+         <span class="material-symbols-outlined" style="top:76%; left:30%; --r:15deg;  animation-delay:1.2s">icecream</span>
+         <span class="material-symbols-outlined" style="top:80%; left:55%; --r:-22deg; animation-delay:0.9s">cookie</span>
+         <span class="material-symbols-outlined" style="top:83%; left:85%; --r:12deg;  animation-delay:1.7s">breakfast_dining</span>
+         <span class="material-symbols-outlined" style="top:86%; left:8%;  --r:30deg;  animation-delay:0.6s">local_pizza</span>
+         <span class="material-symbols-outlined" style="top:89%; left:45%; --r:-18deg; animation-delay:2.2s">lunch_dining</span>
+         <span class="material-symbols-outlined" style="top:92%; left:72%; --r:14deg;  animation-delay:1.4s">bakery_dining</span>
+         <span class="material-symbols-outlined" style="top:95%; left:20%; --r:-20deg; animation-delay:1.1s">ramen_dining</span>
       </div>
-      <div class="card">
-        <label>Food Name</label>
-        <input type="text" id="foodName">
-        <label>Expiry Date (DD/MM/YY)</label>
-        <input type="text" id="expiryDate" placeholder="05/03/26">
-        <button class="md-btn" onclick="addFood()">Add</button>
+      <div class="pages-container">
+         <main class="page active" id="home">
+            <h1>FoodPing</h1>
+            <div class="page-content">
+               <div class="big-thing">
+                  <span class="material-symbols-outlined home-ic">fork_spoon</span>
+               </div>
+               <div class="card">
+                  <label>Food Name</label>
+                  <div class="food-input-row">
+                     <input type="text" id="foodName" onblur="saveFood()">
+                     <button class="random-food-btn" onclick="setRandomFood()">
+                     <span class="material-icons-round">auto_awesome</span>
+                     </button>
+                  </div>
+                  <label>Expiry Date</label>
+                  <div class="date-input-row">
+                     <input type="text" id="expiryDate" placeholder="DD/MM/YY">
+                     <button class="date-pick-btn" onclick="openDatePicker()">
+                     <i class="fa-solid fa-calendar"></i>
+                     </button>
+                  </div>
+                  <button class="md-btn" onclick="addFood()">Add</button>
+               </div>
+            </div>
+         </main>
+         <main class="page" id="logs">
+            <h1>Food List</h1>
+            <div class="page-content">
+               <div class="card">
+                  <table id="foodTable">
+                     <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                     </tr>
+                  </table>
+                  <button class="md-btn" onclick="deleteAllExpired()">Delete All Expired</button>
+               </div>
+            </div>
+         </main>
+         <main class="page" id="settings">
+            <h1>Settings</h1>
+            <div class="page-content">
+               <div class="settings-group">
+                  <div class="settings-group-label">GENERAL</div>
+                  <div class="settings-card">
+                     <div class="settings-row">
+                        <span class="material-symbols-outlined settings-icon">vibration</span>
+                        <span class="settings-row-label">Haptic Feedback</span>
+                        <label class="switch">
+                        <input type="checkbox" id="hapticToggle">
+                        <span class="switch-track"></span>
+                        </label>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" onclick="openThemeModal()">
+                        <span class="material-symbols-outlined settings-icon">palette</span>
+                        <span class="settings-row-label">Themes</span>
+                        <span class="settings-row-value" id="themeDisplay">Default</span>
+                        <span class="material-symbols-outlined settings-chevron">chevron_right</span>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" onclick="openFontModal()">
+                        <span class="material-symbols-outlined settings-icon">font_download</span>
+                        <span class="settings-row-label">Font</span>
+                        <span class="settings-row-value" id="fontDisplay">Default</span>
+                        <span class="material-symbols-outlined settings-chevron">chevron_right</span>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" onclick="openWifiModal()">
+                        <span class="material-symbols-outlined settings-icon">wifi</span>
+                        <span class="settings-row-label">Device Wi-Fi Setup</span>
+                        <span class="settings-row-value" id="wifiStatus">Not configured</span>
+                        <span class="material-symbols-outlined settings-chevron">chevron_right</span>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" onclick="openCloudIdModal()">
+                        <span class="material-symbols-outlined settings-icon">cloud</span>
+                        <span class="settings-row-label">Cloud Sync</span>
+                        <span class="settings-row-value" id="cloudIdDisplay">Not set</span>
+                        <span class="material-symbols-outlined settings-chevron">chevron_right</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="settings-group">
+                  <div class="settings-group-label">NOTIFICATIONS</div>
+                  <div class="settings-card">
+                     <div class="settings-row" id="notifTimeRow" onclick="openTimePicker()">
+                        <span class="material-symbols-outlined settings-icon">notifications</span>
+                        <span class="settings-row-label">Alert Time</span>
+                        <span class="settings-row-value" id="notifTimeDisplay">8:00 AM</span>
+                        <span class="material-symbols-outlined settings-chevron">chevron_right</span>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row">
+                        <span class="material-symbols-outlined settings-icon">notifications_active</span>
+                        <span class="settings-row-label">Notifications</span>
+                        <label class="switch">
+                        <input type="checkbox" id="notifToggle">
+                        <span class="switch-track"></span>
+                        </label>
+                     </div>
+                  </div>
+               </div>
+               <div class="settings-group">
+                  <div class="settings-group-label">DATA MANAGEMENT</div>
+                  <div class="settings-card">
+                     <div class="settings-row" id="backupBtn">
+                        <span class="material-symbols-outlined settings-icon">backup</span>
+                        <span class="settings-row-label settings-row-danger">Backup</span>
+                        <span class="material-symbols-outlined settings-chevron">chevron_right</span>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" id="restoreBtn">
+                        <span class="material-symbols-outlined settings-icon">restore</span>
+                        <span class="settings-row-label settings-row-danger">Restore</span>
+                        <span class="material-symbols-outlined settings-chevron">chevron_right</span>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" onclick="confirmReset()">
+                        <span class="material-symbols-outlined settings-icon">delete_forever</span>
+                        <span class="settings-row-label settings-row-danger">Reset All Data</span>
+                        <span class="material-symbols-outlined settings-chevron">error</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="settings-group">
+                  <div class="settings-group-label">EXPERIMENTAL</div>
+                  <div class="settings-card">
+                     <div class="settings-row">
+                        <span class="material-icons-round settings-icon">rss_feed</span>
+                        <span class="settings-row-label">Feed Page</span>
+                        <label class="switch">
+                        <input type="checkbox" id="feeds">
+                        <span class="switch-track"></span>
+                        </label>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row">
+                        <span class="material-icons-round settings-icon">auto_awesome</span>
+                        <span class="settings-row-label">Smart Suggestions</span>
+                        <label class="switch">
+                        <input type="checkbox" id="neuralLearning">
+                        <span class="switch-track"></span>
+                        </label>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" onclick="openResetLearningModal()">
+                        <span class="material-symbols-outlined settings-icon">delete_forever</span>
+                        <span class="settings-row-label settings-row-danger">Forget everything</span>
+                        <span class="material-symbols-outlined settings-chevron">chevron_right</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="settings-group">
+                  <div class="settings-group-label">ABOUT</div>
+                  <div class="settings-card">
+                     <div class="settings-row">
+                        <span class="material-symbols-outlined settings-icon">calendar_meal_2</span>
+                        <span class="settings-row-label">FoodPing</span>
+                        <span class="settings-row-value">v1.2 (120)</span>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" onclick="openCreditsModal()">
+                        <span class="material-symbols-outlined settings-icon">info</span>
+                        <span class="settings-row-label">Credits</span>
+                        <span class="material-symbols-outlined settings-chevron">chevron_right</span>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" id="rowDev">
+                        <span class="material-symbols-outlined settings-icon">code</span>
+                        <span class="settings-row-label">Developer</span>
+                        <span id="devs" class="settings-row-value">Izatifoodie</span>
+                     </div>
+                     <div class="settings-divider"></div>
+                     <div class="settings-row" id="rowDesigner">
+                        <span class="material-symbols-outlined settings-icon">format_paint</span>
+                        <span class="settings-row-label">UI Designer</span>
+                        <span class="settings-row-value">Ryne</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </main>
+         <main class="page" id="feedpage">
+            <div class="feed-topbar">
+               <h1 style="margin:0;padding:0;flex:1">Food Feed</h1>
+               <button id="feedRefreshBtn" onclick="loadFeed(true)">
+               <span class="material-symbols-outlined">refresh</span>
+               </button>
+            </div>
+            <div class="feed-page-content">
+               <div id="feedList"></div>
+            </div>
+            <div id="feedDetail"></div>
+         </main>
+         <main class="page" id="about">
+            <h1>About</h1>
+            <div class="page-content">
+               <div class="info">
+                  <div class="info-icon-container">
+                     <span class="material-symbols-outlined info-icon">
+                     calendar_meal_2
+                     </span>
+                  </div>
+                  <div class="info-text">
+                     <div class="app-title">FoodPing</div>
+                     <div class="creator">by Izatifoodie</div>
+                  </div>
+               </div>
+            </div>
+         </main>
       </div>
-    </main>
-
-    <main class="page" id="logs">
-      <h1>Food List</h1>
-      <div class="card">
-        <table id="foodTable">
-          <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </table>
+      <nav class="bottom-nav">
+         <button class="nav-item active" data-page="home">
+         <span class="material-symbols-outlined">home</span>
+         <span class="nav-label">Home</span>
+         </button>
+         <button class="nav-item" data-page="logs">
+         <span class="material-symbols-outlined">list</span>
+         <span class="nav-label">Food List</span>
+         </button>
+         <button class="nav-item" data-page="feedpage" id="feedNavBtn" style="display:none">
+         <span class="material-symbols-outlined">rss_feed</span>
+         <span class="nav-label">Feed</span>
+         </button>
+         <button class="nav-item" data-page="settings">
+         <span class="material-symbols-outlined">settings</span>
+         <span class="nav-label">Settings</span>
+         </button>
+         <button class="nav-item" data-page="about">
+         <span class="material-symbols-outlined">info</span>
+         <span class="nav-label">About</span>
+         </button>
+      </nav>
+      <div id="datePicker" style="display:none">
+         <div id="datePickerBackdrop" onclick="closeDatePicker()"></div>
+         <div id="datePickerSheet">
+            <div id="datePickerHeader">
+               <button id="datePickerCancel" onclick="closeDatePicker()">Cancel</button>
+               <span id="datePickerTitle">Expiry Date</span>
+               <button id="datePickerDone" onclick="confirmDate()">Done</button>
+            </div>
+            <div id="datePickerBody">
+               <div id="datePickerSelector"></div>
+               <div class="drum-wrapper">
+                  <div class="drum-fade-top"></div>
+                  <div class="drum-scroll" id="dayScroll"></div>
+                  <div class="drum-fade-bottom"></div>
+               </div>
+               <div class="drum-wrapper">
+                  <div class="drum-fade-top"></div>
+                  <div class="drum-scroll" id="monthScroll"></div>
+                  <div class="drum-fade-bottom"></div>
+               </div>
+               <div class="drum-wrapper">
+                  <div class="drum-fade-top"></div>
+                  <div class="drum-scroll" id="yearScroll"></div>
+                  <div class="drum-fade-bottom"></div>
+               </div>
+            </div>
+         </div>
       </div>
-      <ul id="foodList" class="md-list"></ul>
-    </main>
-
-    <main class="page" id="settings">
-      <h1>Settings</h1>
-
-      <div class="settings-group">
-        <div class="settings-group-label">GENERAL</div>
-        <div class="settings-card">
-          <div class="settings-row">
-            <span class="material-symbols-outlined settings-icon">vibration</span>
-            <span class="settings-row-label">Haptic Feedback</span>
-            <label class="ios-switch">
-              <input type="checkbox" id="hapticToggle">
-              <span class="ios-switch-track"></span>
-            </label>
-          </div>
-          <div class="settings-divider"></div>
-          <div class="settings-row" onclick="confirmReset()">
-            <span class="material-symbols-outlined settings-icon">delete_forever</span>
-            <span class="settings-row-label settings-row-danger">Reset All Data</span>
-          </div>
-        </div>
+      <div id="resetLearningModal" style="display:none;">
+         <div id="resetLearningBackdrop"></div>
+         <div id="resetLearningBox">
+            <div id="resetLearningTitle">Reset?</div>
+            <div id="resetLearningMsg">This will delete all learned food data.</div>
+            <div class="alert-btn-divider"></div>
+            <button class="alert-action-btn" onclick="closeResetLearningModal()">Cancel</button>
+            <div class="alert-btn-divider"></div>
+            <button class="alert-action-btn" onclick="confirmResetLearning()" style="color: var(--md-sys-color-primary);">Reset</button>
+         </div>
       </div>
-
-      <div class="settings-group">
-        <div class="settings-group-label">NOTIFICATIONS</div>
-        <div class="settings-card">
-          <div class="settings-row" id="notifTimeRow" onclick="openTimePicker()">
-            <span class="material-symbols-outlined settings-icon">notifications</span>
-            <span class="settings-row-label">Alert Time</span>
-            <span class="settings-row-value" id="notifTimeDisplay">8:00 AM</span>
-            <span class="material-symbols-outlined settings-chevron">chevron_right</span>
-          </div>
-          <div class="settings-divider"></div>
-          <div class="settings-row">
-            <span class="material-symbols-outlined settings-icon">notifications_active</span>
-            <span class="settings-row-label">Notifications</span>
-            <label class="ios-switch">
-              <input type="checkbox" id="notifToggle">
-              <span class="ios-switch-track"></span>
-            </label>
-          </div>
-        </div>
+      <div id="cloudIdModal" style="display:none;">
+         <div id="cloudIdBackdrop"></div>
+         <div id="cloudIdBox">
+            <div id="cloudIdTitle">Cloud Sync</div>
+            <div id="cloudIdContent">
+               <label for="cloudUsrInput">Username</label>
+               <input id="cloudUsrInput" placeholder="Anything">
+               <label for="cloudIdInput">Cloud Sync ID</label>
+               <input id="cloudIdInput" placeholder="Sheets development ID">
+            </div>
+            <div id="cloudUrlDivider"></div>
+            <div id="cloudUrlActions">
+               <button id="cloudUrlCancelBtn" onclick="closeCloudIdModal()">Cancel</button>
+               <button id="cloudUrlSaveBtn" onclick="saveCloudId()">Save</button>
+            </div>
+         </div>
       </div>
-
-      <div class="settings-group">
-        <div class="settings-group-label">ABOUT</div>
-        <div class="settings-card">
-          <div class="settings-row">
-            <span class="material-symbols-outlined settings-icon">fork_spoon</span>
-            <span class="settings-row-label">FoodPing</span>
-            <span class="settings-row-value">v1.0</span>
-          </div>
-          <div class="settings-divider"></div>
-          <div class="settings-row">
-            <span class="material-symbols-outlined settings-icon">person</span>
-            <span class="settings-row-label">Developer</span>
-            <span class="settings-row-value">Izatifoodie</span>
-          </div>
-        </div>
+      <div id="wifiModal" style="display:none;">
+         <div id="wifiBackdrop"></div>
+         <div id="wifiBox">
+            <div id="wifiTitle">Device Wi-Fi Setup</div>
+            <div id="wifiContent">
+               <label for="wifiSsid">WiFi Name</label>
+               <input id="wifiSsid" placeholder="SSID">
+               <label for="wifiPass">WiFi Password</label>
+               <div class="wifi-pass-wrap">
+                  <input id="wifiPass" type="password" placeholder="Password">
+                  <span class="material-symbols-outlined wifi-eye" onclick="toggleWifiPass()">
+                  visibility
+                  </span>
+               </div>
+               <button class="md-btn" onclick="resetWifi()">Reset WiFi</button>
+            </div>
+            <div id="wifiDivider"></div>
+            <div id="wifiActions">
+               <button onclick="closeWifiModal()">Cancel</button>
+               <button onclick="saveWifi()">Save</button>
+            </div>
+         </div>
       </div>
-    </main>
-
-    <main class="page" id="about">
-      <h1>About</h1>
-      <div class="info">
-        <img src="icon.png" alt="Icon">
-        <div class="info-text">
-          <div>FoodPing</div>
-          <div class="creator">by Izatifoodie</div>
-          <textarea id="ledUrlInput" placeholder="Paste app script url here"></textarea>
-          <button onclick="saveLEDUrl()">Save</button>
-        </div>
+      <div id="themeModal" style="display:none;">
+         <div id="themeBackdrop" onclick="closeThemeModal()"></div>
+         <div id="themeBox">
+            <div id="themeTitle">Themes <i class="fa-solid fa-palette"></i></div>
+            <div id="themeList">
+               <div class="theme-option" onclick="applyTheme('strawberry')" id="theme-strawberry">
+                  <i class="fa-solid fa-heart theme-swatch" style="color: rgb(240, 182, 193)"></i>
+                  <span class="theme-name">Strawberry Cupcake</span>
+                  <span class="material-symbols-outlined theme-check" id="check-strawberry">check</span>
+               </div>
+               <div class="theme-divider"></div>
+               <div class="theme-option" onclick="applyTheme('tomato')" id="theme-tomato">
+                  <i class="fa-solid fa-cube theme-swatch" style="color: rgb(220, 70, 60)"></i>
+                  <span class="theme-name">Tomato Jelly</span>
+                  <span class="material-symbols-outlined theme-check" id="check-tomato">check</span>
+               </div>
+               <div class="theme-divider"></div>
+               <div class="theme-option" onclick="applyTheme('honey')" id="theme-honey">
+                  <i class="fa-solid fa-jar theme-swatch" style="color: rgb(240, 180, 60)"></i>
+                  <span class="theme-name">Honey Amber</span>
+                  <span class="material-symbols-outlined theme-check" id="check-honey">check</span>
+               </div>
+               <div class="theme-divider"></div>
+               <div class="theme-option" onclick="applyTheme('mint')" id="theme-mint">
+                  <i class="fa-solid fa-leaf theme-swatch" style="color: rgb(170, 230, 210)"></i>
+                  <span class="theme-name">Mint Breeze</span>
+                  <span class="material-symbols-outlined theme-check" id="check-mint">check</span>
+               </div>
+               <div class="theme-divider"></div>
+               <div class="theme-option" onclick="applyTheme('android')" id="theme-android">
+                  <i class="fa-brands fa-android theme-swatch" style="color: rgb(164, 198, 57)"></i>
+                  <span class="theme-name">Android Green</span>
+                  <span class="material-symbols-outlined theme-check" id="check-android">check</span>
+               </div>
+               <div class="theme-divider"></div>
+               <div class="theme-option" onclick="applyTheme('blueberry')" id="theme-blueberry">
+                  <i class="fa-solid fa-circle-dot theme-swatch" style="color: rgb(100, 120, 200)"></i>
+                  <span class="theme-name">Blueberry Muffin</span>
+                  <span class="material-symbols-outlined theme-check" id="check-blueberry">check</span>
+               </div>
+               <div class="theme-divider"></div>
+               <div class="theme-option" onclick="applyTheme('amethyst')" id="theme-amethyst">
+                  <i class="fa-solid fa-gem theme-swatch" style="color: rgb(155, 110, 200)"></i>
+                  <span class="theme-name">Amethyst Shard</span>
+                  <span class="material-symbols-outlined theme-check" id="check-amethyst">check</span>
+               </div>
+               <div class="theme-divider"></div>
+               <div class="theme-option" onclick="applyTheme('coco')" id="theme-coco">
+                  <i class="fa-solid fa-mug-hot theme-swatch" style="color: rgb(210, 180, 140)"></i>
+                  <span class="theme-name">Coco Cream</span>
+                  <span class="material-symbols-outlined theme-check" id="check-coco">check</span>
+               </div>
+               <div class="theme-divider"></div>
+               <div class="theme-option" onclick="applyTheme('white')" id="theme-white">
+                  <i class="fa-solid fa-cloud theme-swatch" style="color: rgb(230, 230, 230)"></i>
+                  <span class="theme-name">Steamed Bun</span>
+                  <span class="material-symbols-outlined theme-check" id="check-white">check</span>
+               </div>
+               <div class="theme-divider"></div>
+               <div class="theme-option" onclick="applyTheme('void')" id="theme-void">
+                  <i class="fa-solid fa-moon theme-swatch" style="color: rgb(30, 30, 35)"></i>
+                  <span class="theme-name">The Void</span>
+                  <span class="material-symbols-outlined theme-check" id="check-void">check</span>
+               </div>
+            </div>
+            <div id="themeDivider"></div>
+            <div id="themeActions">
+               <button onclick="closeThemeModal()">Close</button>
+            </div>
+         </div>
       </div>
-    </main>
-
-  </div>
-
-  <nav class="bottom-nav">
-    <button class="nav-item active" data-page="home">
-      <span class="material-symbols-outlined">home</span>
-      <span class="nav-label">Home</span>
-    </button>
-    <button class="nav-item" data-page="logs">
-      <span class="material-symbols-outlined">list</span>
-      <span class="nav-label">Food List</span>
-    </button>
-    <button class="nav-item" data-page="settings">
-      <span class="material-symbols-outlined">settings</span>
-      <span class="nav-label">Settings</span>
-    </button>
-    <button class="nav-item" data-page="about">
-      <span class="material-symbols-outlined">info</span>
-      <span class="nav-label">About</span>
-    </button>
-  </nav>
-
-  <script src="index.js"></script>
-  <script src="notifs.js"></script>
-  <script src="led.js"></script>
-  <script>
-function saveLEDUrl() {
-  const val = document.getElementById('ledUrlInput').value.trim();
-  localStorage.setItem('led_script_url', val);
-  showAlert('LED URL saved!');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('led_script_url');
-  if (saved) document.getElementById('ledUrlInput').value = saved;
-});
-</script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        registrations.forEach(reg => reg.unregister());
-      }).then(() => {
-        navigator.serviceWorker.register('/FoodPingg/sw.js');
-      });
-    }
-  </script>
-
-</body>
+      <div id="fontModal" style="display:none;">
+         <div id="fontBackdrop" onclick="closeFontModal()"></div>
+         <div id="fontBox">
+            <div id="fontTitle">Font <i class="fa-solid fa-font"></i></div>
+            <div id="fontList">
+               <div class="font-option" onclick="applyFont('default')" id="font-default">
+                  <div class="font-main">
+                     <span class="font-preview" style="font-family: 'Google Sans Flex', sans-serif;">Aa</span>
+                     <span class="font-name" style="font-family: 'Google Sans Flex', sans-serif;">Google Sans Flex</span>
+                  </div>
+                  <span class="material-symbols-outlined font-check" id="check-font-default">check</span>
+               </div>
+               <div class="font-divider"></div>
+               <div class="font-option" onclick="applyFont('patrickhand')" id="font-patrickhand">
+                  <div class="font-main">
+                     <span class="font-preview" style="font-family: 'Patrick Hand', cursive;">Aa</span>
+                     <span class="font-name" style="font-family: 'Patrick Hand', cursive;">Patrick Hand</span>
+                  </div>
+                  <span class="material-symbols-outlined font-check" id="check-font-patrickhand">check</span>
+               </div>
+               <div class="font-divider"></div>
+               <div class="font-option" onclick="applyFont('gaegu')" id="font-gaegu">
+                  <div class="font-main">
+                     <span class="font-preview" style="font-family: 'Gaegu', cursive;">Aa</span>
+                     <span class="font-name" style="font-family: 'Gaegu', cursive;">Gaegu</span>
+                  </div>
+                  <span class="material-symbols-outlined font-check" id="check-font-gaegu">check</span>
+               </div>
+               <div class="font-divider"></div>
+               <div class="font-option" onclick="applyFont('monocraft')" id="font-monocraft">
+                  <div class="font-main">
+                     <span class="font-preview" style="font-family: 'Monocraft', monospace;">Aa</span>
+                     <span class="font-name" style="font-family: 'Monocraft', monospace;">Monocraft</span>
+                  </div>
+                  <span class="material-symbols-outlined font-check" id="check-font-monocraft">check</span>
+               </div>
+               <div class="font-divider"></div>
+               <div class="font-option" onclick="applyFont('jetbrains')" id="font-jetbrains">
+                  <div class="font-main">
+                     <span class="font-preview" style="font-family: 'JetBrains Mono', monospace;">Aa</span>
+                     <span class="font-name" style="font-family: 'JetBrains Mono', monospace;">JetBrains Mono</span>
+                  </div>
+                  <span class="material-symbols-outlined font-check" id="check-font-jetbrains">check</span>
+               </div>
+            </div>
+            <div id="fontSizeSection">
+               <div id="fontSizeHeader">
+                  <span class="material-symbols-outlined" id="fontSizeIcon">format_size</span>
+                  <div id="fontSizeInfo">
+                     <span id="fontSizeLabel">Font size</span>
+                     <span id="fontSizeValue">16</span>
+                  </div>
+               </div>
+               <input type="range" id="fontSizeSlider" min="12" max="24" value="16" step="1">
+            </div>
+            <div id="fontDivider"></div>
+            <div id="fontActions">
+               <button onclick="closeFontModal()">Close</button>
+            </div>
+         </div>
+      </div>
+      <div id="creditsModal" style="display:none;">
+         <div id="creditsBackdrop" onclick="closeCreditsModal()"></div>
+         <div id="creditsBox">
+            <div id="creditsTitle">Credits <i class="fa-solid fa-book"></i></div>
+            <div id="creditsList">
+               <div class="credits-item" onclick="window.open('https://fontawesome.com', '_blank')">
+                  <div class="credits-info">
+                     <span class="credits-name">Font Awesome 7</span>
+                     <span class="credits-sub">by Fonticons | Free License</span>
+                  </div>
+                  <span class="material-symbols-outlined credits-link">open_in_new</span>
+               </div>
+               <div class="credits-divider"></div>
+               <div class="credits-item" onclick="window.open('https://fonts.google.com/specimen/Patrick+Hand', '_blank')">
+                  <div class="credits-info">
+                     <span class="credits-name">Patrick Hand</span>
+                     <span class="credits-sub">by Google Fonts | OFL License</span>
+                  </div>
+                  <span class="material-symbols-outlined credits-link">open_in_new</span>
+               </div>
+               <div class="credits-divider"></div>
+               <div class="credits-item" onclick="window.open('https://fonts.google.com/specimen/Gaegu', '_blank')">
+                  <div class="credits-info">
+                     <span class="credits-name">Gaegu</span>
+                     <span class="credits-sub">by Google Fonts | OFL License</span>
+                  </div>
+                  <span class="material-symbols-outlined credits-link">open_in_new</span>
+               </div>
+               <div class="credits-divider"></div>
+               <div class="credits-item" onclick="window.open('https://github.com/IdreesInc/Monocraft', '_blank')">
+                  <div class="credits-info">
+                     <span class="credits-name">Monocraft</span>
+                     <span class="credits-sub">by IdreesInc | MIT License</span>
+                  </div>
+                  <span class="material-symbols-outlined credits-link">open_in_new</span>
+               </div>
+               <div class="credits-divider"></div>
+               <div class="credits-item" onclick="window.open('https://fonts.google.com/specimen/JetBrains+Mono', '_blank')">
+                  <div class="credits-info">
+                     <span class="credits-name">JetBrains Mono</span>
+                     <span class="credits-sub">by JetBrains | OFL License</span>
+                  </div>
+                  <span class="material-symbols-outlined credits-link">open_in_new</span>
+               </div>
+               <div class="credits-divider"></div>
+               <div class="credits-item" onclick="window.open('https://fonts.google.com/icons', '_blank')">
+                  <div class="credits-info">
+                     <span class="credits-name">Material Symbols</span>
+                     <span class="credits-sub">by Google | Apache 2.0 License</span>
+                  </div>
+                  <span class="material-symbols-outlined credits-link">open_in_new</span>
+               </div>
+               <div class="credits-divider"></div>
+               <div class="credits-item" onclick="window.open('https://fonts.google.com', '_blank')">
+                  <div class="credits-info">
+                     <span class="credits-name">Google Sans Flex</span>
+                     <span class="credits-sub">by Google Fonts</span>
+                  </div>
+                  <span class="material-symbols-outlined credits-link">open_in_new</span>
+               </div>
+            </div>
+            <div id="creditsDivider"></div>
+            <div id="creditsActions">
+               <button onclick="closeCreditsModal()">Close</button>
+            </div>
+         </div>
+      </div>
+      <script src="app.js"></script>
+      <script src="notifs.js"></script>
+      <script src="cloud.js"></script>
+      <script></script>
+   </body>
 </html>
