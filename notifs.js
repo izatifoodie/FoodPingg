@@ -1,7 +1,17 @@
-const CHECK_INTERVAL = 5 * 1000;
+const CHECK_INTERVAL = 15 * 1000;
 
 if ('Notification' in window && Notification.permission === 'default') {
   Notification.requestPermission();
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.ready.then(reg => {
+    if ('periodicSync' in reg) {
+      reg.periodicSync.register('check-expiry', {
+        minInterval: 60 * 60 * 1000
+      }).catch(() => {});
+    }
+  });
 }
 
 function parseDateNotif(dateStr) {
@@ -22,8 +32,8 @@ function showNotification(foodName, days, date) {
   localStorage.setItem(key, 'true');
 
   const msg = days === 0
-    ? `${foodName} expired today!`
-    : `${foodName} is about to expire (${days} days left)`;
+    ? `${foodName} expired hari ini!`
+    : `${foodName} hampir expired (${days} hari lagi)`;
 
   navigator.serviceWorker.getRegistration().then(reg => {
     if (!reg) return;
@@ -59,11 +69,7 @@ function isWithinNotifWindow() {
   const { h, m } = parseNotifTime(saved);
   const now      = new Date();
 
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-  const setMin = h * 60 + m;
-
-  
-  return nowMin >= setMin && nowMin < setMin + 2;
+  return now.getHours() === h && now.getMinutes() === m;
 }
 
 function checkFoodExpiry() {
