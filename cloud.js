@@ -12,11 +12,22 @@ function getFoods() {
   return JSON.parse(localStorage.getItem("foods")) || [];
 }
 
+// Convert a food's date field into a ms timestamp for syncing.
+// Assumes f.date is "YYYY-MM-DD" (e.g. from <input type="date">).
+// Adjust the parsing line if your date field is stored differently.
+function toExpiryTimestamp(f) {
+  const ms = new Date(f.date).getTime();
+  return isNaN(ms) ? 0 : ms;
+}
+
 async function cloudSync() {
   const url = getCloudUrl();
   if (!url || !isOnline()) return;
 
-  const foods = getFoods();
+  const foods = getFoods().map(f => ({
+    name: f.name,
+    date: toExpiryTimestamp(f)
+  }));
 
   await fetch(url, {
     method: "POST",
@@ -30,10 +41,8 @@ async function cloudSync() {
 
 function watchLocalChanges() {
   let lastState = JSON.stringify(getFoods());
-
   setInterval(() => {
     const current = JSON.stringify(getFoods());
-
     if (current !== lastState) {
       cloudSync();
       lastState = current;
@@ -42,7 +51,6 @@ function watchLocalChanges() {
 }
 
 window.addEventListener("online", cloudSync);
-
 document.addEventListener("DOMContentLoaded", () => {
   watchLocalChanges();
   cloudSync();
