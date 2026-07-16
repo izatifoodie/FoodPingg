@@ -12,12 +12,12 @@ function getFoods() {
   return JSON.parse(localStorage.getItem("foods")) || [];
 }
 
-// Convert a food's date field into a ms timestamp for syncing.
-// Assumes f.date is "YYYY-MM-DD" (e.g. from <input type="date">).
-// Adjust the parsing line if your date field is stored differently.
 function toExpiryTimestamp(f) {
-  const ms = new Date(f.date).getTime();
-  return isNaN(ms) ? 0 : ms;
+  const [d, m, y] = (f.date || "").split("/");
+  if (!d || !m || !y) return 0;
+  const year = parseInt(y) + (parseInt(y) < 100 ? 2000 : 0);
+  const date = new Date(year, parseInt(m) - 1, parseInt(d));
+  return isNaN(date.getTime()) ? 0 : date.getTime();
 }
 
 async function cloudSync() {
