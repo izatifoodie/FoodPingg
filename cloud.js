@@ -1,6 +1,7 @@
 function getCloudUrl() {
   const id = localStorage.getItem("cloud_id");
   if (!id) return null;
+
   return `https://script.google.com/macros/s/${id}/exec`;
 }
 
@@ -14,14 +15,31 @@ function getFoods() {
 
 function toExpiryTimestamp(f) {
   const [d, m, y] = (f.date || "").split("/");
+
   if (!d || !m || !y) return 0;
-  const year = parseInt(y) + (parseInt(y) < 100 ? 2000 : 0);
-  const date = new Date(year, parseInt(m) - 1, parseInt(d));
-  return isNaN(date.getTime()) ? 0 : date.getTime();
+
+  const year =
+    parseInt(y) +
+    (parseInt(y) < 100 ? 2000 : 0);
+
+  const date = new Date(
+    year,
+    parseInt(m) - 1,
+    parseInt(d)
+  );
+
+  return isNaN(date.getTime())
+    ? 0
+    : date.getTime();
+}
+
+function getNotificationTime() {
+  return localStorage.getItem("notifTime") || "8:00 AM";
 }
 
 async function cloudSync() {
   const url = getCloudUrl();
+
   if (!url || !isOnline()) return;
 
   const foods = getFoods().map(f => ({
@@ -29,28 +47,46 @@ async function cloudSync() {
     date: toExpiryTimestamp(f)
   }));
 
-  await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify({
-      action: "mirror",
-      foods
-    })
-  });
+  const notifTime = getNotificationTime();
+
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        action: "mirror",
+        foods,
+        notifTime
+      })
+    });
+  } catch (err) {
+    console.error("Cloud sync failed:", err);
+  }
 }
 
 function watchLocalChanges() {
-  let lastState = JSON.stringify(getFoods());
+  let lastState = JSON.stringify({
+    foods: getFoods(),
+    notifTime: getNotificationTime()
+  });
+
   setInterval(() => {
-    const current = JSON.stringify(getFoods());
-    if (current !== lastState) {
+    const currentState = JSON.stringify({
+      foods: getFoods(),
+      notifTime: getNotificationTime()
+    });
+
+    if (currentState !== lastState) {
       cloudSync();
-      lastState = current;
+      lastState = currentState;
     }
   }, 1500);
 }
 
 window.addEventListener("online", cloudSync);
+
 document.addEventListener("DOMContentLoaded", () => {
   watchLocalChanges();
   cloudSync();
