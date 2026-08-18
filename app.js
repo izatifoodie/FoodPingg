@@ -281,6 +281,7 @@ function closeTimePicker(save) {
     const formatted = `${h}:${String(m).padStart(2, '0')} ${a}`;
     localStorage.setItem('notifTime', formatted);
     document.getElementById('notifTimeDisplay').textContent = formatted;
+    cloudSync?.();
   }
 
   sheet.style.animation = 'sheetSlideDown 0.3s ease forwards';
@@ -458,6 +459,7 @@ function renderTable() {
               foods.splice(index, 1);
               saveFoods(foods);
               renderTable();
+              cloudSync?.();
             }
           }
         ]
@@ -484,6 +486,7 @@ function deleteAllExpired() {
           expired.forEach(f => localStorage.removeItem(`notified_${f.name}_${f.date}`));
           saveFoods(getFoods().filter(f => parseDate(f.date) >= now));
           renderTable();
+          cloudSync?.();
         }
       }
     ]
