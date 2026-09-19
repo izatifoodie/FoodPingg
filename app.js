@@ -747,118 +747,10 @@ function initDevsEasterEgg() {
 
 // sw
 
-// SW + PHONE NOTIFICATION
-
-let lastNotificationKey = '';
-
-async function requestNotificationPermission() {
-  if (!('Notification' in window)) return false;
-
-  if (Notification.permission === 'default') {
-    const permission = await Notification.requestPermission();
-    return permission === 'granted';
-  }
-
-  return Notification.permission === 'granted';
-}
-
-async function checkFoodNotification() {
-  if (localStorage.getItem('notifEnabled') === 'false') return;
-
-  const notifTime = localStorage.getItem('notifTime') || '8:00 AM';
-
-  const parts = notifTime.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-  if (!parts) return;
-
-  let hour = parseInt(parts[1]);
-  const minute = parseInt(parts[2]);
-  const ampm = parts[3].toUpperCase();
-
-  if (ampm === 'PM' && hour !== 12) hour += 12;
-  if (ampm === 'AM' && hour === 12) hour = 0;
-
-  const now = new Date();
-
-  if (
-    now.getHours() !== hour ||
-    now.getMinutes() !== minute
-  ) return;
-
-  const today = now.toISOString().slice(0, 10);
-  const notificationKey = `${today}_${notifTime}`;
-
-  if (lastNotificationKey === notificationKey) return;
-
-  const foods = getFoods();
-
-  const expiring = foods.filter(food => {
-    const expiry = parseDate(food.date);
-    expiry.setHours(0, 0, 0, 0);
-
-    const todayDate = new Date();
-    todayDate.setHours(0, 0, 0, 0);
-
-    const diff = Math.ceil(
-      (expiry - todayDate) / 86400000
-    );
-
-    return diff >= 0 && diff <= 3;
-  });
-
-  if (!expiring.length) return;
-
-  lastNotificationKey = notificationKey;
-
-  const message = expiring
-    .map(food => {
-      const expiry = parseDate(food.date);
-      expiry.setHours(0, 0, 0, 0);
-
-      const todayDate = new Date();
-      todayDate.setHours(0, 0, 0, 0);
-
-      const diff = Math.ceil(
-        (expiry - todayDate) / 86400000
-      );
-
-      return diff === 0
-        ? `${food.name} expired hari ini!`
-        : `${food.name} hampir expired (${diff} hari lagi)`;
-    })
-    .join('\n');
-
-  const registration =
-    await navigator.serviceWorker.ready;
-
-  registration.showNotification('FoodPing Reminder', {
-    body: message,
-    icon: '/FoodPingg/icon.png',
-    badge: '/FoodPingg/badge.png',
-    vibrate: [200, 100, 200],
-    tag: `foodping_${notificationKey}`,
-    renotify: true
-  });
-}
-
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/FoodPingg/sw.js')
-    .then(async registration => {
-
-      console.log('FoodPing Service Worker ready');
-
-      if (
-        'Notification' in window &&
-        Notification.permission === 'default'
-      ) {
-        console.log('Notification permission belum diberikan');
-      }
-
-      setInterval(checkFoodNotification, 1000);
-    })
-    .catch(err => {
-      console.error('Service Worker error:', err);
-    });
+  navigator.serviceWorker.getRegistrations()
+    .then(regs => Promise.all(regs.map(r => r.unregister())))
+    .then(() => navigator.serviceWorker.register('/FoodPingg/sw.js'));
 }
 
 // greetings
@@ -1874,6 +1766,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById('rowDev').addEventListener('click', () => openLinkAlert('Izatifoodie', 'https://github.com/Izatifoodie'));
-document.getElementById('rowDesigner').addEventListener('click', () => openLinkAlert('rynekryz', 'https://github.com/rynekryz'));
-greetUser();
-initTheme();
+document.getElementById('rowDesigner').addEventListener('click', () => openLinkAlert('rynekry
