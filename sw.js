@@ -1,16 +1,16 @@
-const CACHE_NAME = 'foodping-v1';
+const CACHE_NAME = 'foodping-v2';
 const ASSETS = [
-  '/foodping/',
-  '/foodping/index.html',
-  '/foodping/ui.css',
-  '/foodping/app.js',
-  '/foodping/badge.png',
-  '/foodping/cloud.js',
-  '/foodping/empty.png',
-  '/foodping/icon.png',
-  '/foodping/site.webmanifest',
-  '/foodping/404.html',
-  '/foodping/sw.js',
+  '/FoodPingg/',
+  '/FoodPingg/index.html',
+  '/FoodPingg/ui.css',
+  '/FoodPingg/app.js',
+  '/FoodPingg/badge.png',
+  '/FoodPingg/cloud.js',
+  '/FoodPingg/empty.png',
+  '/FoodPingg/icon.png',
+  '/FoodPingg/site.webmanifest',
+  '/FoodPingg/404.html',
+  '/FoodPingg/sw.js',
 ];
 
 self.addEventListener('install', e => {
@@ -40,7 +40,7 @@ self.addEventListener('fetch', e => {
       .catch(() =>
         caches.match(e.request).then(cached => {
           if (cached) return cached;
-          return caches.match('/foodping/404.html');
+          return caches.match('/FoodPingg/404.html');
         })
       )
   );
@@ -52,7 +52,7 @@ self.addEventListener('notificationclick', event => {
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
       const existing = clients.find(c => 'focus' in c);
       if (existing) return existing.focus();
-      return self.clients.openWindow('/foodping/');
+      return self.clients.openWindow('/FoodPingg/');
     })
   );
 });
@@ -63,13 +63,30 @@ self.addEventListener('periodicsync', event => {
   }
 });
 
+// db read
+
+function readKV(key) {
+  return new Promise(resolve => {
+    const req = indexedDB.open('foodping', 1);
+    req.onupgradeneeded = () => req.result.createObjectStore('kv');
+    req.onsuccess = () => {
+      const db = req.result;
+      const tx = db.transaction('kv', 'readonly');
+      const getReq = tx.objectStore('kv').get(key);
+      getReq.onsuccess = () => { resolve(getReq.result); db.close(); };
+      getReq.onerror = () => { resolve(undefined); db.close(); };
+    };
+    req.onerror = () => resolve(undefined);
+  });
+}
+
 async function checkAndNotifyFromSW() {
-  const stored    = await self.registration.storage?.get?.('foods');
-  const foods     = JSON.parse(stored || '[]');
-  const now       = new Date();
-  const today     = now.toDateString();
-  const alertTime = await self.registration.storage?.get?.('notifTime') || '8:00 AM';
-  const enabled   = await self.registration.storage?.get?.('notifEnabled');
+  const storedFoods = await readKV('foods');
+  const foods       = JSON.parse(storedFoods || '[]');
+  const now         = new Date();
+  const today       = now.toDateString();
+  const alertTime   = (await readKV('notifTime')) || '8:00 AM';
+  const enabled     = await readKV('notifEnabled');
 
   if (enabled === 'false') return;
 
@@ -80,7 +97,7 @@ async function checkAndNotifyFromSW() {
   if (a === 'PM' && h !== 12) h += 12;
   if (a === 'AM' && h === 12) h = 0;
 
-  if (now.getHours() !== h || now.getMinutes() !== m) return;
+  if (now.getHours() < h || (now.getHours() === h && now.getMinutes() < m)) return;
 
   const nowDay = new Date();
   nowDay.setHours(0, 0, 0, 0);
