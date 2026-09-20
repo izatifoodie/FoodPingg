@@ -5,19 +5,9 @@ function getCloudUrl() {
   return `https://script.google.com/macros/s/${id}/exec`;
 }
 
-
-// ======================================================
-// INTERNET STATUS
-// ======================================================
-
 function isOnline() {
   return navigator.onLine;
 }
-
-
-// ======================================================
-// GET FOODS
-// ======================================================
 
 function getFoods() {
   return JSON.parse(localStorage.getItem("foods")) || [];
@@ -25,56 +15,50 @@ function getFoods() {
 
 
 // ======================================================
-// CONVERT FOOD DATE TO EXPIRY TIMESTAMP
-// ======================================================
-//
-// Expiry date tetap sampai penghujung hari.
-// Contoh:
-// 20/09/2026
-// = 20/09/2026 23:59:59.999
-//
+// CONVERT EXPIRY DATE
 // ======================================================
 
 function toExpiryTimestamp(f) {
 
   const [d, m, y] = (f.date || "").split("/");
 
-  if (!d || !m || !y) {
-    return 0;
-  }
+  if (!d || !m || !y) return 0;
 
   const year =
     parseInt(y) +
     (parseInt(y) < 100 ? 2000 : 0);
 
-  const date = new Date(
+  const month = parseInt(m);
+  const day = parseInt(d);
+
+  /*
+    Malaysia = UTC+8
+
+    Kita jadikan expiry:
+    20/09/2026 23:59:59 Malaysia
+
+    bersamaan:
+    20/09/2026 15:59:59 UTC
+  */
+
+  const timestamp = Date.UTC(
     year,
-    parseInt(m) - 1,
-    parseInt(d),
-    23,
+    month - 1,
+    day,
+    15,
     59,
     59,
     999
   );
 
-  return isNaN(date.getTime())
+  return isNaN(timestamp)
     ? 0
-    : date.getTime();
+    : timestamp;
 }
 
 
 // ======================================================
-// GET NOTIFICATION TIME
-// ======================================================
-//
-// App simpan:
-// 8:00 AM
-// 8:00 PM
-//
-// Google/ESP terima:
-// 08:00
-// 20:00
-//
+// NOTIFICATION TIME
 // ======================================================
 
 function getNotificationTime() {
@@ -82,14 +66,22 @@ function getNotificationTime() {
   const value =
     localStorage.getItem("notifTime") || "8:00 AM";
 
+
+  // AM/PM format
   const match =
-    value.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+    value.match(
+      /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
+    );
+
 
   if (!match) {
 
-    // Kalau sudah dalam format 24 jam
+    // 24-hour format
     const twentyFour =
-      value.match(/^(\d{1,2}):(\d{2})$/);
+      value.match(
+        /^(\d{1,2}):(\d{2})$/
+      );
+
 
     if (twentyFour) {
 
@@ -100,11 +92,14 @@ function getNotificationTime() {
         parseInt(twentyFour[2]);
 
       return (
-        String(h).padStart(2, "0") +
-        ":" +
+        String(h).padStart(2, "0")
+        +
+        ":"
+        +
         String(m).padStart(2, "0")
       );
     }
+
 
     return "08:00";
   }
@@ -135,8 +130,10 @@ function getNotificationTime() {
 
 
   return (
-    String(hour).padStart(2, "0") +
-    ":" +
+    String(hour).padStart(2, "0")
+    +
+    ":"
+    +
     minute
   );
 }
@@ -148,7 +145,9 @@ function getNotificationTime() {
 
 async function cloudSync() {
 
-  const url = getCloudUrl();
+  const url =
+    getCloudUrl();
+
 
   if (!url || !isOnline()) {
     return;
@@ -157,8 +156,11 @@ async function cloudSync() {
 
   const foods =
     getFoods().map(f => ({
+
       name: f.name,
+
       date: toExpiryTimestamp(f)
+
     }));
 
 
@@ -168,28 +170,32 @@ async function cloudSync() {
 
   try {
 
-    await fetch(url, {
+    await fetch(
 
-      method: "POST",
+      url,
 
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
+      {
 
-      body: JSON.stringify({
+        method: "POST",
 
-        action: "mirror",
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
 
-        foods: foods,
+        body:
+          JSON.stringify({
 
-        notifTime: notifTime
+            action: "mirror",
 
-      })
+            foods: foods,
 
-    });
+            notifTime: notifTime
 
-    console.log(
-      "FoodPing cloud sync successful"
+          })
+
+        }
+
     );
 
   }
@@ -216,7 +222,7 @@ function watchLocalChanges() {
       foods: getFoods(),
 
       notifTime:
-        localStorage.getItem("notifTime") || "8:00 AM"
+        getNotificationTime()
 
     });
 
@@ -229,7 +235,7 @@ function watchLocalChanges() {
         foods: getFoods(),
 
         notifTime:
-          localStorage.getItem("notifTime") || "8:00 AM"
+          getNotificationTime()
 
       });
 
@@ -249,7 +255,7 @@ function watchLocalChanges() {
 
 
 // ======================================================
-// INTERNET RECONNECTED
+// ONLINE
 // ======================================================
 
 window.addEventListener(
@@ -259,7 +265,7 @@ window.addEventListener(
 
 
 // ======================================================
-// PAGE LOAD
+// START
 // ======================================================
 
 document.addEventListener(
