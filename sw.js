@@ -1,4 +1,4 @@
-const CACHE_NAME = 'foodping-v3';
+const CACHE_NAME = 'foodping-v2';
 const ASSETS = [
   '/FoodPingg/',
   '/FoodPingg/index.html',
@@ -109,11 +109,10 @@ async function checkAndNotifyFromSW() {
     const expiry = new Date(year, parseInt(parts[1]) - 1, parseInt(parts[0]));
     const diff   = Math.ceil((expiry - nowDay) / (1000 * 60 * 60 * 24));
 
-    const msg = diff < 0
-  ? `${food.name} telah expired!`
-  : diff === 0
-    ? `${food.name} expired hari ini!`
-    : `${food.name} hampir expired (${diff} hari lagi)`;
+    if (diff <= 3 && diff >= 0) {
+      const msg = diff === 0
+        ? `${food.name} expired hari ini!`
+        : `${food.name} hampir expired (${diff} hari lagi)`;
 
       self.registration.showNotification('FoodPing Reminder', {
         body: msg,
