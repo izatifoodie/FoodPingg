@@ -28,14 +28,10 @@ function getFoods() {
 // CONVERT FOOD DATE TO EXPIRY TIMESTAMP
 // ======================================================
 //
-// Example:
+// Expiry date tetap sampai penghujung hari.
+// Contoh:
 // 20/09/2026
-//
-// Will become:
-// 20/09/2026 23:59:59.999
-//
-// This means the food is still valid throughout
-// the selected expiry date.
+// = 20/09/2026 23:59:59.999
 //
 // ======================================================
 
@@ -70,10 +66,79 @@ function toExpiryTimestamp(f) {
 // ======================================================
 // GET NOTIFICATION TIME
 // ======================================================
+//
+// App simpan:
+// 8:00 AM
+// 8:00 PM
+//
+// Google/ESP terima:
+// 08:00
+// 20:00
+//
+// ======================================================
 
 function getNotificationTime() {
 
-  return localStorage.getItem("notifTime") || "8:00 AM";
+  const value =
+    localStorage.getItem("notifTime") || "8:00 AM";
+
+  const match =
+    value.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+
+  if (!match) {
+
+    // Kalau sudah dalam format 24 jam
+    const twentyFour =
+      value.match(/^(\d{1,2}):(\d{2})$/);
+
+    if (twentyFour) {
+
+      const h =
+        parseInt(twentyFour[1]);
+
+      const m =
+        parseInt(twentyFour[2]);
+
+      return (
+        String(h).padStart(2, "0") +
+        ":" +
+        String(m).padStart(2, "0")
+      );
+    }
+
+    return "08:00";
+  }
+
+
+  let hour =
+    parseInt(match[1]);
+
+  const minute =
+    match[2];
+
+  const ampm =
+    match[3].toUpperCase();
+
+
+  if (ampm === "AM") {
+
+    if (hour === 12) {
+      hour = 0;
+    }
+
+  } else {
+
+    if (hour !== 12) {
+      hour += 12;
+    }
+  }
+
+
+  return (
+    String(hour).padStart(2, "0") +
+    ":" +
+    minute
+  );
 }
 
 
@@ -90,26 +155,16 @@ async function cloudSync() {
   }
 
 
-  // ====================================================
-  // PREPARE FOOD DATA
-  // ====================================================
-
-  const foods = getFoods().map(f => ({
-    name: f.name,
-    date: toExpiryTimestamp(f)
-  }));
+  const foods =
+    getFoods().map(f => ({
+      name: f.name,
+      date: toExpiryTimestamp(f)
+    }));
 
 
-  // ====================================================
-  // GET NOTIFICATION TIME
-  // ====================================================
+  const notifTime =
+    getNotificationTime();
 
-  const notifTime = getNotificationTime();
-
-
-  // ====================================================
-  // SEND TO GOOGLE APPS SCRIPT
-  // ====================================================
 
   try {
 
@@ -133,7 +188,6 @@ async function cloudSync() {
 
     });
 
-
     console.log(
       "FoodPing cloud sync successful"
     );
@@ -146,47 +200,48 @@ async function cloudSync() {
       "Cloud sync failed:",
       err
     );
-
   }
 }
 
 
 // ======================================================
-// WATCH LOCAL STORAGE CHANGES
+// WATCH LOCAL CHANGES
 // ======================================================
 
 function watchLocalChanges() {
 
-  let lastState = JSON.stringify({
-
-    foods: getFoods(),
-
-    notifTime: getNotificationTime()
-
-  });
-
-
-  setInterval(() => {
-
-    const currentState = JSON.stringify({
+  let lastState =
+    JSON.stringify({
 
       foods: getFoods(),
 
-      notifTime: getNotificationTime()
+      notifTime:
+        localStorage.getItem("notifTime") || "8:00 AM"
 
     });
 
 
-    // ==================================================
-    // DATA CHANGED
-    // ==================================================
+  setInterval(() => {
 
-    if (currentState !== lastState) {
+    const currentState =
+      JSON.stringify({
+
+        foods: getFoods(),
+
+        notifTime:
+          localStorage.getItem("notifTime") || "8:00 AM"
+
+      });
+
+
+    if (
+      currentState !== lastState
+    ) {
 
       cloudSync();
 
-      lastState = currentState;
-
+      lastState =
+        currentState;
     }
 
   }, 1500);
