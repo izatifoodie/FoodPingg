@@ -14,6 +14,25 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// db sync
+
+function syncStateToDB() {
+  const req = indexedDB.open('foodping', 1);
+  req.onupgradeneeded = () => req.result.createObjectStore('kv');
+  req.onsuccess = () => {
+    const db = req.result;
+    const tx = db.transaction('kv', 'readwrite');
+    const store = tx.objectStore('kv');
+    store.put(localStorage.getItem('foods') || '[]', 'foods');
+    store.put(localStorage.getItem('notifTime') || '8:00 AM', 'notifTime');
+    store.put(localStorage.getItem('notifEnabled') || 'true', 'notifEnabled');
+    tx.oncomplete = () => db.close();
+  };
+}
+
+syncStateToDB();
+setInterval(syncStateToDB, CHECK_INTERVAL);
+
 function parseDateNotif(dateStr) {
   const parts = dateStr.split('/');
   let year = parseInt(parts[2]);
@@ -62,18 +81,20 @@ function parseNotifTime(saved) {
   return { h, m };
 }
 
-function isWithinNotifWindow() {
+function isPastNotifWindow() {
   if (localStorage.getItem('notifEnabled') === 'false') return false;
 
   const saved    = localStorage.getItem('notifTime') || '8:00 AM';
   const { h, m } = parseNotifTime(saved);
   const now      = new Date();
 
-  return now.getHours() === h && now.getMinutes() === m;
+  if (now.getHours() > h) return true;
+  if (now.getHours() === h && now.getMinutes() >= m) return true;
+  return false;
 }
 
 function checkFoodExpiry() {
-  if (!isWithinNotifWindow()) return;
+  if (!isPastNotifWindow()) return;
 
   const foods = JSON.parse(localStorage.getItem('foods')) || [];
   const now   = new Date();
