@@ -359,6 +359,12 @@ function saveFoods(foods) {
   localStorage.setItem('foods', JSON.stringify(foods));
 }
 
+function clearNotifiedKeys(name, date) {
+  const today = new Date().toDateString();
+  const alertTime = localStorage.getItem('notifTime') || '8:00 AM';
+  localStorage.removeItem(`notified_${name}_${date}_${today}_${alertTime}`);
+}
+
 function parseDate(dateStr) {
   const [d, m, y] = dateStr.split('/');
   return new Date(parseInt(y) + (parseInt(y) < 100 ? 2000 : 0), parseInt(m) - 1, parseInt(d));
@@ -454,7 +460,7 @@ function renderTable() {
             action: () => {
               haptic([20, 30, 20]);
               const foods = getFoods();
-              localStorage.removeItem(`notified_${foods[index].name}_${foods[index].date}`);
+              clearNotifiedKeys(foods[index].name, foods[index].date);
               foods.splice(index, 1);
               saveFoods(foods);
               renderTable();
@@ -481,7 +487,7 @@ function deleteAllExpired() {
         label: 'Delete', bold: true,
         action: () => {
           haptic([20, 30, 20]);
-          expired.forEach(f => localStorage.removeItem(`notified_${f.name}_${f.date}`));
+          expired.forEach(f => clearNotifiedKeys(f.name, f.date));
           saveFoods(getFoods().filter(f => parseDate(f.date) >= now));
           renderTable();
         }
